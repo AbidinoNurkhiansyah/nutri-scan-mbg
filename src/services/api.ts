@@ -1,15 +1,13 @@
 import axios from "axios";
-import { useAuthStore } from "../store/authStore";
+import { useAuthStore } from "../features/auth/store/authStore";
 
-// Base instance configured for backend API
 const api = axios.create({
-  baseURL: "http://localhost:5000/api", // Base URL of backend
+  baseURL: "http://localhost:3001/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add interceptor to attach token if exists
 api.interceptors.request.use(
   (config) => {
     const token = useAuthStore.getState().accessToken;
