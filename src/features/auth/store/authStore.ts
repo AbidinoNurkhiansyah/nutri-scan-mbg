@@ -1,23 +1,38 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
+interface User {
+  id: string;
+  fullName: string;
+  email: string;
+  schoolName?: string;
+  className?: string;
+  isActive: boolean;
+}
+
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
+  user: User | null;
   setTokens: (accessToken: string, refreshToken: string) => void;
-  clearTokens: () => void;
+  setUser: (user: User) => void;
+  clearAuth: () => void;
+  isAuthenticated: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       accessToken: null,
       refreshToken: null,
+      user: null,
       setTokens: (accessToken, refreshToken) => set({ accessToken, refreshToken }),
-      clearTokens: () => set({ accessToken: null, refreshToken: null }),
+      setUser: (user) => set({ user }),
+      clearAuth: () => set({ accessToken: null, refreshToken: null, user: null }),
+      isAuthenticated: () => !!get().accessToken,
     }),
     {
-      name: "auth-storage", // stores in localStorage
+      name: "auth-storage",
     }
   )
 );
