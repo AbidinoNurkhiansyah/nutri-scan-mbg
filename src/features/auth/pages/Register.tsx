@@ -29,6 +29,7 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = React.useState(false);
 
   const {
     register,
@@ -40,19 +41,18 @@ const Register: React.FC = () => {
   });
 
   const registerMutation = useMutation({
-    mutationFn: async (data: Omit<RegisterFormData, "confirmPassword">) => {
-      // Exclude confirmPassword when sending to backend
+    mutationFn: async (data: RegisterFormData) => {
       const payload = {
-        name: data.name,
+        fullName: data.name,
         email: data.email,
         password: data.password,
+        confirmPassword: data.confirmPassword,
       };
       const response = await api.post("/auth/register", payload);
       return response.data;
     },
     onSuccess: () => {
-      // Redirect to login upon successful registration
-      navigate("/login");
+      setShowSuccess(true);
     },
     onError: (error) => {
       console.error("Register Error:", error);
@@ -65,6 +65,33 @@ const Register: React.FC = () => {
 
   const isLoading = registerMutation.isPending;
 
+  // Success state — show activation instructions
+  if (showSuccess) {
+    return (
+      <AuthLayout
+        title="Registrasi Berhasil!"
+        subtitle="Akun Anda telah berhasil dibuat"
+      >
+        <div className="text-center py-6">
+          <div className="w-14 h-14 rounded-full bg-primary-container/20 flex items-center justify-center mx-auto mb-4">
+            <span
+              className="material-symbols-outlined text-primary text-3xl"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              mark_email_read
+            </span>
+          </div>
+          <p className="text-on-surface-variant text-sm mb-6">
+            Kami telah mengirim email aktivasi ke alamat email Anda. Silakan cek inbox dan klik link aktivasi untuk mengaktifkan akun.
+          </p>
+          <Button onClick={() => navigate("/login")}>
+            Kembali ke Login
+          </Button>
+        </div>
+      </AuthLayout>
+    );
+  }
+
   return (
     <AuthLayout
       title="Daftar Akun Baru"
@@ -72,8 +99,8 @@ const Register: React.FC = () => {
     >
       {registerMutation.isError && (
         <div className="mb-3 p-2 bg-error-container text-on-error-container text-xs rounded-lg">
-          Registrasi Gagal. Silakan periksa kembali data Anda atau coba beberapa
-          saat lagi.
+          {(registerMutation.error as any)?.response?.data?.meta?.message ||
+            "Registrasi Gagal. Silakan periksa kembali data Anda atau coba beberapa saat lagi."}
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
