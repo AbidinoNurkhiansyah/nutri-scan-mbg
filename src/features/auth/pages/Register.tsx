@@ -1,13 +1,13 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate, Link } from "react-router-dom";
-import api from "../../../services/api";
-import { AuthLayout } from "../components/AuthLayout";
-import { Input } from "../../../shared/components/ui/Input";
-import { Button } from "../../../shared/components/ui/Button";
+import React from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useMutation } from "@tanstack/react-query"
+import { useNavigate, Link } from "react-router-dom"
+import api from "../../../services/api"
+import { AuthLayout } from "../components/AuthLayout"
+import { Input } from "../../../shared/components/ui/Input"
+import { Button } from "../../../shared/components/ui/Button"
 
 const registerSchema = z
   .object({
@@ -20,15 +20,15 @@ const registerSchema = z
     password: z.string().min(6, "Password must be at least 6 characters"),
     confirmPassword: z.string().min(1, "Please confirm your password"),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
-  });
+  })
 
-type RegisterFormData = z.infer<typeof registerSchema>;
+type RegisterFormData = z.infer<typeof registerSchema>
 
 const Register: React.FC = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const {
     register,
@@ -37,33 +37,34 @@ const Register: React.FC = () => {
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange",
-  });
+  })
 
   const registerMutation = useMutation({
-    mutationFn: async (data: Omit<RegisterFormData, "confirmPassword">) => {
+    mutationFn: async (data: RegisterFormData) => {
       // Exclude confirmPassword when sending to backend
       const payload = {
-        name: data.name,
+        fullName: data.name,
         email: data.email,
         password: data.password,
-      };
-      const response = await api.post("/auth/register", payload);
-      return response.data;
+        confirmPassword: data.confirmPassword,
+      }
+      const response = await api.post("/auth/register", payload)
+      return response.data
     },
     onSuccess: () => {
       // Redirect to login upon successful registration
-      navigate("/login");
+      navigate("/login")
     },
-    onError: (error) => {
-      console.error("Register Error:", error);
+    onError: error => {
+      console.error("Register Error:", error)
     },
-  });
+  })
 
   const onSubmit = (data: RegisterFormData) => {
-    registerMutation.mutate(data);
-  };
+    registerMutation.mutate(data)
+  }
 
-  const isLoading = registerMutation.isPending;
+  const isLoading = registerMutation.isPending
 
   return (
     <AuthLayout
@@ -140,7 +141,7 @@ const Register: React.FC = () => {
         </p>
       </div>
     </AuthLayout>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

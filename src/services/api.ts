@@ -1,22 +1,22 @@
-import axios from "axios";
-import { useAuthStore } from "../features/auth/store/authStore";
+import axios from "axios"
+import { useAuthStore } from "../features/auth/store/authStore"
 
 const api = axios.create({
-  baseURL: "http://localhost:3001/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3001/api",
   headers: {
     "Content-Type": "application/json",
   },
-});
+})
 
 api.interceptors.request.use(
-  (config) => {
-    const token = useAuthStore.getState().accessToken;
+  config => {
+    const token = useAuthStore.getState().accessToken
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`
     }
-    return config;
+    return config
   },
-  (error) => Promise.reject(error)
-);
+  error => Promise.reject(error)
+)
 
-export default api;
+export default api
