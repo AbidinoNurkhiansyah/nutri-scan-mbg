@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     onSuccess: (data) => {
       if (data?.data?.accessToken && data?.data?.refreshToken) {
         setTokens(data.data.accessToken, data.data.refreshToken);
-        navigate("/dashboard");
+        navigate("/dashboard", { state: { loginSuccess: true } });
       }
     },
     onError: (error) => {
@@ -59,7 +59,8 @@ const Login: React.FC = () => {
     >
       {loginMutation.isError && (
         <div className="mb-3 p-2 bg-error-container text-on-error-container text-xs rounded-lg">
-          Login Gagal. Periksa kembali credentials Anda.
+          {(loginMutation.error as any)?.response?.data?.meta?.message ||
+            "Login Gagal. Periksa kembali credentials Anda."}
         </div>
       )}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
@@ -83,12 +84,12 @@ const Login: React.FC = () => {
           disabled={isLoading}
           error={errors.password?.message}
           rightElement={
-            <a
+            <Link
+              to="/forgot-password"
               className="text-xs font-semibold text-primary hover:text-primary-container transition-colors"
-              href="#"
             >
               Forgot Password?
-            </a>
+            </Link>
           }
           {...register("password")}
         />
