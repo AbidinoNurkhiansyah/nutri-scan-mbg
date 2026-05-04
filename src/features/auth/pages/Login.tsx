@@ -38,7 +38,7 @@ const Login: React.FC = () => {
     onSuccess: (data) => {
       if (data?.data?.accessToken && data?.data?.refreshToken) {
         setTokens(data.data.accessToken, data.data.refreshToken);
-        navigate("/dashboard", { state: { loginSuccess: true } });
+        navigate("/dashboard", { replace: true, state: { loginSuccess: true } });
       }
     },
     onError: (error) => {
