@@ -62,8 +62,17 @@ const Dashboard: React.FC = () => {
             Gagal Memuat Profil
           </h2>
           <p className="text-on-surface-variant text-sm mb-6">
-            Sesi Anda mungkin sudah berakhir. Silakan login kembali.
+            Sesi Anda mungkin sudah berakhir atau terjadi masalah jaringan.
           </p>
+          <button
+            onClick={() => {
+              useAuthStore.getState().clearAuth();
+              window.location.href = "/login";
+            }}
+            className="px-6 py-2.5 bg-primary text-white font-medium rounded-xl shadow-sm hover:bg-primary/90 transition-colors"
+          >
+            Kembali ke Login
+          </button>
         </div>
       </div>
     );
