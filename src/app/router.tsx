@@ -7,6 +7,12 @@ import ForgotPassword from "../features/auth/pages/ForgotPassword";
 import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ChangePassword from "../features/auth/pages/ChangePassword";
 import Dashboard from "../features/dashboard/pages/Dashboard";
+import DashboardLayout from "../features/dashboard/layouts/DashboardLayout";
+import ScanPage from "../features/scan/pages/ScanPage";
+import ScanResultPage from "../features/scan/pages/ScanResultPage";
+import HistoryPage from "../features/history/pages/HistoryPage";
+import StatsPage from "../features/stats/pages/StatsPage";
+import ProfilePage from "../features/profile/pages/ProfilePage";
 import { ProtectedRoute } from "../shared/components/ProtectedRoute";
 import { GuestRoute } from "../shared/components/GuestRoute";
 
@@ -24,15 +30,22 @@ export const AppRouter: React.FC = () => {
         {/* Public Routes — accessible regardless of auth */}
         <Route path="/activation" element={<Activation />} />
 
-        {/* Protected Routes — redirect to login if not logged in */}
+        {/* Protected Routes — nested under DashboardLayout */}
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <DashboardLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/scan" element={<ScanPage />} />
+          <Route path="/scan/result/:id" element={<ScanResultPage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/history/:id" element={<ScanResultPage />} />
+          <Route path="/stats" element={<StatsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
 
         {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
