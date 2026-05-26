@@ -2,12 +2,13 @@ export interface NavItem {
   icon: string;
   label: string;
   id: string;
+  path: string;
 }
 
 export const navItems: NavItem[] = [
-  { icon: "dashboard", label: "Dashboard", id: "dashboard" },
-  { icon: "history", label: "Riwayat Scan", id: "history" },
-  { icon: "photo_camera", label: "Scan Makanan", id: "scan" },
-  { icon: "bar_chart", label: "Statistik", id: "stats" },
-  { icon: "person", label: "Profil", id: "profile" },
+  { icon: "dashboard", label: "Dashboard", id: "dashboard", path: "/dashboard" },
+  { icon: "history", label: "Riwayat Scan", id: "history", path: "/history" },
+  { icon: "photo_camera", label: "Scan Makanan", id: "scan", path: "/scan" },
+  { icon: "bar_chart", label: "Statistik", id: "stats", path: "/stats" },
+  { icon: "person", label: "Profil", id: "profile", path: "/profile" },
 ];
