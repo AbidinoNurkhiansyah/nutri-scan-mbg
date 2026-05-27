@@ -6,6 +6,7 @@ import Activation from "../features/auth/pages/Activation";
 import ForgotPassword from "../features/auth/pages/ForgotPassword";
 import VerifyOtp from "../features/auth/pages/VerifyOtp";
 import ChangePassword from "../features/auth/pages/ChangePassword";
+import SetupProfilePage from "../features/auth/pages/SetupProfilePage";
 import Dashboard from "../features/dashboard/pages/Dashboard";
 import DashboardLayout from "../features/dashboard/layouts/DashboardLayout";
 import ScanPage from "../features/scan/pages/ScanPage";
@@ -29,6 +30,9 @@ export const AppRouter: React.FC = () => {
 
         {/* Public Routes — accessible regardless of auth */}
         <Route path="/activation" element={<Activation />} />
+
+        {/* Protected Routes — Standalone */}
+        <Route path="/setup-profile" element={<ProtectedRoute><SetupProfilePage /></ProtectedRoute>} />
 
         {/* Protected Routes — nested under DashboardLayout */}
         <Route
