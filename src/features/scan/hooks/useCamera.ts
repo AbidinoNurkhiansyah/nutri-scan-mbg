@@ -11,6 +11,10 @@ export const useCamera = () => {
   const startCamera = useCallback(async () => {
     setCameraError(null);
     try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error("SECURE_CONTEXT_REQUIRED");
+      }
+      
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: "environment",
@@ -24,10 +28,17 @@ export const useCamera = () => {
         await videoRef.current.play();
       }
       setCameraActive(true);
-    } catch {
-      setCameraError(
-        "Tidak dapat mengakses kamera. Pastikan izin kamera telah diberikan."
-      );
+    } catch (err: any) {
+      console.error("Camera access error:", err);
+      if (err.message === "SECURE_CONTEXT_REQUIRED") {
+        setCameraError(
+          "Kamera hanya dapat diakses melalui koneksi aman (HTTPS) atau localhost."
+        );
+      } else {
+        setCameraError(
+          "Tidak dapat mengakses kamera. Pastikan izin kamera telah diberikan dan perangkat memiliki kamera aktif."
+        );
+      }
     }
   }, []);
 
