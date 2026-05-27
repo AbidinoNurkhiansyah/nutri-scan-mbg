@@ -69,11 +69,11 @@ export const NutritionChart: React.FC<NutritionChartProps> = ({
       <h3 className="font-headline font-bold text-sm text-on-surface mb-4">
         Proporsi Nutrisi
       </h3>
-      <div className="flex items-center gap-6">
-        <div className="w-36 h-36 shrink-0">
+      <div className="flex flex-col sm:flex-row items-center gap-6">
+        <div className="w-40 h-40 sm:w-36 sm:h-36 shrink-0">
           <Doughnut data={chartData} options={chartOptions} />
         </div>
-        <div className="flex-1 space-y-2">
+        <div className="flex-1 w-full space-y-2">
           {labels.map((label, i) => (
             <div
               key={label}

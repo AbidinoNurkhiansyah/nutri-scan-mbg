@@ -72,11 +72,12 @@ const ScanPage: React.FC = () => {
   return (
     <div className="animate-[fadeIn_0.3s_ease-out]">
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-extrabold tracking-tight mb-1">
-          Scan Makanan
+        <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight mb-1">
+          Scan Menu MBG
         </h1>
         <p className="text-on-surface-variant text-sm">
-          Ambil foto atau upload gambar makanan untuk analisis nutrisi AI
+          Ambil foto atau upload gambar makanan MBG kalian untuk analisis
+          nutrisi
         </p>
       </div>
 
@@ -208,4 +209,3 @@ const ScanPage: React.FC = () => {
 };
 
 export default ScanPage;
-

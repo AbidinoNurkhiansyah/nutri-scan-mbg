@@ -23,7 +23,7 @@ ChartJS.register(
   LinearScale,
   BarElement,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const StatsPage: React.FC = () => {
@@ -146,13 +146,13 @@ const StatsPage: React.FC = () => {
     avgScore >= 70
       ? "text-primary"
       : avgScore >= 40
-      ? "text-secondary"
-      : "text-tertiary";
+        ? "text-secondary"
+        : "text-tertiary";
 
   return (
-    <div className="animate-[fadeIn_0.3s_ease-out]">
+    <div className="w-full max-w-full overflow-x-hidden animate-[fadeIn_0.3s_ease-out] pb-6">
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-extrabold tracking-tight mb-1">
+        <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight mb-1">
           Statistik
         </h1>
         <p className="text-on-surface-variant text-sm">
@@ -161,46 +161,50 @@ const StatsPage: React.FC = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-3 gap-3 mb-5">
-        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-4 border border-outline-variant/10 text-center">
-          <p className="font-display text-2xl font-extrabold text-on-surface">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-5">
+        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-2 sm:p-4 border border-outline-variant/10 text-center flex flex-col justify-center min-w-0">
+          <p className="font-display text-xl sm:text-2xl font-extrabold text-on-surface">
             {totalScan}
           </p>
-          <p className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">
+          <p className="text-[9px] sm:text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold mt-1 truncate w-full">
             Total Scan
           </p>
         </div>
-        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-4 border border-outline-variant/10 text-center">
-          <p className={`font-display text-2xl font-extrabold ${avgScoreColor}`}>
+        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-2 sm:p-4 border border-outline-variant/10 text-center flex flex-col justify-center min-w-0">
+          <p
+            className={`font-display text-xl sm:text-2xl font-extrabold ${avgScoreColor}`}
+          >
             {avgScore.toFixed(0)}
           </p>
-          <p className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">
-            Rata-rata Skor
+          <p className="text-[9px] sm:text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold mt-1 truncate w-full">
+            Rata-rata
           </p>
         </div>
-        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-4 border border-outline-variant/10 text-center">
-          <p className="font-display text-2xl font-extrabold text-primary">
+        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-2 sm:p-4 border border-outline-variant/10 text-center flex flex-col justify-center min-w-0">
+          <p className="font-display text-xl sm:text-2xl font-extrabold text-primary">
             {totalScan > 0 ? ((balanced / totalScan) * 100).toFixed(0) : 0}%
           </p>
-          <p className="text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold">
+          <p className="text-[9px] sm:text-[10px] text-on-surface-variant uppercase tracking-wider font-semibold mt-1 truncate w-full">
             Seimbang
           </p>
         </div>
       </div>
 
       {/* Status Distribution */}
-      <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5">
+      <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5 w-full">
         <h3 className="font-headline font-bold text-sm text-on-surface mb-4">
           Distribusi Status
         </h3>
-        <div className="flex items-center gap-6">
-          <div className="w-32 h-32 shrink-0">
-            <Doughnut data={statusChartData} options={doughnutOptions} />
+        <div className="flex flex-col sm:flex-row items-center gap-6">
+          <div className="w-40 h-40 sm:w-32 sm:h-32 shrink-0">
+            <div className="relative w-full h-full">
+              <Doughnut data={statusChartData} options={doughnutOptions} />
+            </div>
           </div>
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 w-full space-y-3">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
-              <span className="text-sm text-on-surface-variant flex-1">
+              <span className="text-sm text-on-surface-variant flex-1 truncate">
                 Seimbang
               </span>
               <span className="text-sm font-bold text-on-surface">
@@ -209,7 +213,7 @@ const StatsPage: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-tertiary-container shrink-0" />
-              <span className="text-sm text-on-surface-variant flex-1">
+              <span className="text-sm text-on-surface-variant flex-1 truncate">
                 Tidak Seimbang
               </span>
               <span className="text-sm font-bold text-on-surface">
@@ -221,21 +225,21 @@ const StatsPage: React.FC = () => {
       </div>
 
       {/* Score Distribution */}
-      <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5">
+      <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5 w-full">
         <h3 className="font-headline font-bold text-sm text-on-surface mb-4">
           Distribusi Skor Kesehatan
         </h3>
-        <div className="h-48">
+        <div className="relative w-full h-48">
           <Bar data={scoreChartData} options={chartOptions} />
         </div>
       </div>
 
       {/* Weekly Activity */}
-      <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5">
+      <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5 w-full">
         <h3 className="font-headline font-bold text-sm text-on-surface mb-4">
           Aktivitas 7 Hari Terakhir
         </h3>
-        <div className="h-48">
+        <div className="relative w-full h-48">
           <Bar data={weeklyChartData} options={chartOptions} />
         </div>
       </div>

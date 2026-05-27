@@ -17,7 +17,7 @@ const HistoryPage: React.FC = () => {
   return (
     <div className="animate-[fadeIn_0.3s_ease-out]">
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-extrabold tracking-tight mb-1">
+        <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight mb-1">
           Riwayat Scan
         </h1>
         <p className="text-on-surface-variant text-sm">
@@ -57,35 +57,38 @@ const HistoryPage: React.FC = () => {
         />
       ) : (
         <>
-          {/* History Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+          {/* History List View */}
+          <div className="flex flex-col gap-3 mb-6">
             {histories.map((item) => {
-              const isBalanced =
-                item.status?.toLowerCase() === "seimbang";
+              const isBalanced = item.status?.toLowerCase() === "seimbang";
 
               return (
                 <button
                   key={item.id}
                   onClick={() => navigate(`/history/${item.id}`)}
-                  className="bg-surface-container-lowest rounded-xl clinical-shadow border border-outline-variant/10 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer group text-left"
+                  className="bg-surface-container-lowest rounded-xl clinical-shadow border border-outline-variant/10 hover:shadow-md hover:-translate-y-[1px] transition-all cursor-pointer group text-left flex items-center p-3 gap-4"
                 >
-                  {/* Image */}
-                  <div className="relative">
+                  {/* Image Thumbnail */}
+                  <div className="relative shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-surface-container">
                     <img
                       src={item.rawImageUrl}
                       alt="Scan makanan"
-                      className="w-full aspect-[16/10] object-cover"
+                      className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-2 right-2">
+                  </div>
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                    <div className="flex items-center gap-2 mb-1">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md ${
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
                           isBalanced
-                            ? "bg-primary/80 text-white"
-                            : "bg-tertiary/80 text-white"
+                            ? "bg-primary/10 text-primary"
+                            : "bg-tertiary/10 text-tertiary"
                         }`}
                       >
                         <span
-                          className="material-symbols-outlined text-xs"
+                          className="material-symbols-outlined text-[10px]"
                           style={{ fontVariationSettings: "'FILL' 1" }}
                         >
                           {isBalanced ? "check_circle" : "warning"}
@@ -93,29 +96,11 @@ const HistoryPage: React.FC = () => {
                         {item.status || "N/A"}
                       </span>
                     </div>
-                  </div>
 
-                  {/* Info */}
-                  <div className="p-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-semibold text-on-surface">
-                          Skor: {item.healthyScore?.toFixed(0) ?? "-"}
-                        </span>
-                        <div
-                          className={`w-2 h-2 rounded-full ${
-                            (item.healthyScore ?? 0) >= 70
-                              ? "bg-primary"
-                              : (item.healthyScore ?? 0) >= 40
-                              ? "bg-secondary"
-                              : "bg-tertiary"
-                          }`}
-                        />
-                      </div>
-                      <span className="material-symbols-outlined text-lg text-outline group-hover:text-primary transition-colors">
-                        chevron_right
-                      </span>
-                    </div>
+                    <p className="text-xs sm:text-sm font-semibold text-on-surface mb-0.5 truncate">
+                      Skor Nutrisi: {item.healthyScore?.toFixed(0) ?? "-"}
+                    </p>
+
                     <p className="text-[11px] text-on-surface-variant">
                       {new Date(item.createdAt).toLocaleDateString("id-ID", {
                         day: "numeric",
@@ -125,6 +110,22 @@ const HistoryPage: React.FC = () => {
                         minute: "2-digit",
                       })}
                     </p>
+                  </div>
+
+                  {/* Right actions/Score indicator */}
+                  <div className="flex items-center gap-3 pr-1">
+                    <div
+                      className={`w-2.5 h-2.5 rounded-full ${
+                        (item.healthyScore ?? 0) >= 70
+                          ? "bg-primary shadow-[0_0_8px_rgba(var(--color-primary),0.5)]"
+                          : (item.healthyScore ?? 0) >= 40
+                            ? "bg-secondary"
+                            : "bg-tertiary"
+                      }`}
+                    />
+                    <span className="material-symbols-outlined text-xl text-outline-variant group-hover:text-primary group-hover:translate-x-1 transition-all">
+                      chevron_right
+                    </span>
                   </div>
                 </button>
               );
@@ -144,10 +145,7 @@ const HistoryPage: React.FC = () => {
                 </span>
               </button>
               <div className="flex items-center gap-1">
-                {Array.from(
-                  { length: pagination.totalPages },
-                  (_, i) => i + 1
-                )
+                {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
                   .filter((p) => {
                     // Show max 5 pages around current
                     return (

@@ -54,7 +54,7 @@ const ScanResultPage: React.FC = () => {
           </span>
         </button>
         <div>
-          <h1 className="font-display text-xl font-extrabold tracking-tight">
+          <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight">
             Hasil Analisis
           </h1>
           <p className="text-xs text-on-surface-variant">
@@ -116,16 +116,10 @@ const ScanResultPage: React.FC = () => {
       )}
 
       {/* Action */}
-      <div className="flex gap-3 pb-4">
-        <button
-          onClick={() => navigate("/history")}
-          className="flex-1 py-3 rounded-xl border border-outline-variant/20 font-headline font-bold text-sm text-on-surface hover:bg-surface-container-high transition-all cursor-pointer"
-        >
-          Lihat Riwayat
-        </button>
+      <div className="flex pb-4">
         <button
           onClick={() => navigate("/scan")}
-          className="flex-1 py-3 rounded-xl bg-primary text-on-primary font-headline font-bold text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
+          className="w-full py-3 rounded-xl bg-primary text-on-primary font-headline font-bold text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
         >
           <span className="material-symbols-outlined text-lg">
             photo_camera
@@ -138,4 +132,3 @@ const ScanResultPage: React.FC = () => {
 };
 
 export default ScanResultPage;
-
