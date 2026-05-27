@@ -24,7 +24,8 @@ export const CameraView: React.FC<CameraViewProps> = ({ onCapture }) => {
 
   return (
     <div className="rounded-2xl overflow-hidden bg-on-surface">
-      {!cameraActive ? (
+      {/* Render tombol Buka Kamera jika tidak aktif */}
+      {!cameraActive && (
         <div className="flex flex-col items-center justify-center py-16 px-4">
           {cameraError ? (
             <>
@@ -51,7 +52,7 @@ export const CameraView: React.FC<CameraViewProps> = ({ onCapture }) => {
                 </span>
               </div>
               <p className="text-white/70 text-sm text-center mb-4">
-                Arahkan kamera ke makanan yang ingin di-scan
+                Arahkan kamera ke ompreng
               </p>
               <button
                 onClick={startCamera}
@@ -62,36 +63,37 @@ export const CameraView: React.FC<CameraViewProps> = ({ onCapture }) => {
             </>
           )}
         </div>
-      ) : (
-        <div className="relative">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full aspect-[4/3] object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-56 h-56 border-2 border-white/40 rounded-3xl" />
-          </div>
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
-            <button
-              onClick={stopCamera}
-              className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:bg-white/30 transition-colors"
-            >
-              <span className="material-symbols-outlined">close</span>
-            </button>
-            <button
-              onClick={() => capturePhoto(onCapture)}
-              className="w-16 h-16 rounded-full bg-white flex items-center justify-center cursor-pointer relative hover:scale-105 active:scale-95 transition-transform"
-            >
-              <div className="absolute inset-0 rounded-full bg-white/50 animate-[pulse-ring_2s_infinite]" />
-              <div className="w-12 h-12 rounded-full bg-primary" />
-            </button>
-            <div className="w-12 h-12" />
-          </div>
-        </div>
       )}
+
+      {/* Selalu render video agar videoRef tidak null saat startCamera dieksekusi */}
+      <div className={`relative ${cameraActive ? "block" : "hidden"}`}>
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="w-full aspect-[4/3] object-cover"
+        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-56 h-56 border-2 border-white/40 rounded-3xl" />
+        </div>
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
+          <button
+            onClick={stopCamera}
+            className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:bg-white/30 transition-colors"
+          >
+            <span className="material-symbols-outlined">close</span>
+          </button>
+          <button
+            onClick={() => capturePhoto(onCapture)}
+            className="w-16 h-16 rounded-full bg-white flex items-center justify-center cursor-pointer relative hover:scale-105 active:scale-95 transition-transform"
+          >
+            <div className="absolute inset-0 rounded-full bg-white/50 animate-[pulse-ring_2s_infinite]" />
+            <div className="w-12 h-12 rounded-full bg-primary" />
+          </button>
+          <div className="w-12 h-12" />
+        </div>
+      </div>
       <canvas ref={canvasRef} className="hidden" />
     </div>
   );
