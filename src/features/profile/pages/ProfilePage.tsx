@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { SchoolCard } from "../components/SchoolCard";
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const queryClient = useQueryClient();
   const updateMutation = useUpdateSchoolData();
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -19,6 +19,15 @@ const ProfilePage: React.FC = () => {
   ) => {
     updateMutation.mutate(schoolData, {
       onSuccess: () => {
+        // Optimistic update to local store to update UI instantly
+        if (user) {
+          setUser({
+            ...user,
+            schoolName: schoolData.schoolName,
+            className: schoolData.className,
+          });
+        }
+        
         setSuccessMsg("Data sekolah berhasil diperbarui!");
         queryClient.invalidateQueries({ queryKey: ["me"] });
         onSuccess();
