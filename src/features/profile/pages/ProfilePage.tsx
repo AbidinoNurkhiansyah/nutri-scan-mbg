@@ -1,41 +1,21 @@
 import React, { useState } from "react";
 import { useAuthStore } from "../../auth/store/authStore";
 import { useUpdateSchoolData } from "../hooks/useUpdateSchoolData";
-import { useNavigate } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import api from "../../../services/api";
+import { useQueryClient } from "@tanstack/react-query";
 import { SchoolCard } from "../components/SchoolCard";
-import { LogoutConfirmDialog } from "../components/LogoutConfirmDialog";
 
 const ProfilePage: React.FC = () => {
-  const { user, setUser, clearAuth } = useAuthStore();
-  const navigate = useNavigate();
+  const { user } = useAuthStore();
   const queryClient = useQueryClient();
   const updateMutation = useUpdateSchoolData();
-
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  // Re-fetch user profile
-  const { data } = useQuery({
-    queryKey: ["me"],
-    queryFn: async () => {
-      const response = await api.get("/auth/me");
-      return response.data;
-    },
-  });
-
-  React.useEffect(() => {
-    if (data?.data) {
-      setUser(data.data);
-    }
-  }, [data, setUser]);
-
-  const profileData = data?.data || user;
+  // User is globally fetched in DashboardLayout, so we just use the store
+  const profileData = user;
 
   const handleSave = (
     schoolData: { schoolName: string; className: string },
-    onSuccess: () => void
+    onSuccess: () => void,
   ) => {
     updateMutation.mutate(schoolData, {
       onSuccess: () => {
@@ -45,11 +25,6 @@ const ProfilePage: React.FC = () => {
         setTimeout(() => setSuccessMsg(null), 3000);
       },
     });
-  };
-
-  const handleLogout = () => {
-    clearAuth();
-    navigate("/login", { replace: true });
   };
 
   const infoItems = [
@@ -69,7 +44,7 @@ const ProfilePage: React.FC = () => {
   return (
     <div className="animate-[fadeIn_0.3s_ease-out]">
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-extrabold tracking-tight mb-1">
+        <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight mb-1">
           Profil Saya
         </h1>
         <p className="text-on-surface-variant text-sm">
@@ -150,26 +125,8 @@ const ProfilePage: React.FC = () => {
         isPending={updateMutation.isPending}
         isError={updateMutation.isError}
       />
-
-      {/* Logout Button */}
-      <button
-        onClick={() => setShowLogoutConfirm(true)}
-        className="w-full flex lg:hidden items-center justify-center gap-2 py-3 rounded-xl border border-error/20 text-error font-headline font-bold text-sm hover:bg-error-container/10 transition-all cursor-pointer mb-4"
-      >
-        <span className="material-symbols-outlined text-lg">logout</span>
-        Logout
-      </button>
-
-      {/* Logout Confirm Dialog */}
-      {showLogoutConfirm && (
-        <LogoutConfirmDialog
-          onConfirm={handleLogout}
-          onCancel={() => setShowLogoutConfirm(false)}
-        />
-      )}
     </div>
   );
 };
 
 export default ProfilePage;
-

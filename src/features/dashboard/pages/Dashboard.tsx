@@ -1,6 +1,5 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import api from "../../../services/api";
 import { useAuthStore } from "../../auth/store/authStore";
 import LoginAlert from "../components/LoginAlert";
 import StatsCards from "../components/StatsCards";
@@ -10,20 +9,13 @@ import { useNavigate } from "react-router-dom";
 import { historyApi } from "../../../services/historyApi";
 
 const Dashboard: React.FC = () => {
-  const { setUser, user } = useAuthStore();
+  const { user } = useAuthStore();
   const navigate = useNavigate();
 
   useBackButtonGuard();
   const { showAlert, dismissAlert } = useLoginAlert();
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["me"],
-    queryFn: async () => {
-      const response = await api.get("/auth/me");
-      return response.data;
-    },
-    retry: 1,
-  });
+  // Note: Current user is now fetched globally in DashboardLayout
 
   // Fetch recent histories for stats & recent scans
   const { data: historiesData } = useQuery({
@@ -31,22 +23,16 @@ const Dashboard: React.FC = () => {
     queryFn: () => historyApi.getHistories({ page: 1, limit: 100 }),
   });
 
-  React.useEffect(() => {
-    if (data?.data) {
-      setUser(data.data);
-    }
-  }, [data, setUser]);
-
-  const profileData = data?.data || user;
+  const profileData = user;
   const histories = historiesData?.data?.histories || [];
 
   // Calculate real stats
   const totalScan = histories.length;
   const balanced = histories.filter(
-    (h) => h.status?.toLowerCase() === "seimbang"
+    (h) => h.status?.toLowerCase() === "seimbang",
   ).length;
   const unbalanced = histories.filter(
-    (h) => h.status?.toLowerCase() !== "seimbang"
+    (h) => h.status?.toLowerCase() !== "seimbang",
   ).length;
 
   // This week's scans
@@ -55,10 +41,10 @@ const Dashboard: React.FC = () => {
   startOfWeek.setDate(now.getDate() - now.getDay());
   startOfWeek.setHours(0, 0, 0, 0);
   const thisWeek = histories.filter(
-    (h) => new Date(h.createdAt) >= startOfWeek
+    (h) => new Date(h.createdAt) >= startOfWeek,
   ).length;
 
-  if (isLoading) {
+  if (!user) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
@@ -75,35 +61,6 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  if (isError) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh] px-4">
-        <div className="text-center max-w-sm">
-          <div className="w-14 h-14 rounded-full bg-error-container/20 flex items-center justify-center mx-auto mb-4">
-            <span className="material-symbols-outlined text-error text-3xl">
-              error
-            </span>
-          </div>
-          <h2 className="font-headline text-lg font-bold text-on-surface mb-2">
-            Gagal Memuat Profil
-          </h2>
-          <p className="text-on-surface-variant text-sm mb-6">
-            Sesi Anda mungkin sudah berakhir atau terjadi masalah jaringan.
-          </p>
-          <button
-            onClick={() => {
-              useAuthStore.getState().clearAuth();
-              window.location.href = "/login";
-            }}
-            className="px-6 py-2.5 bg-primary text-white font-medium rounded-xl shadow-sm hover:bg-primary/90 transition-colors"
-          >
-            Kembali ke Login
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   // Recent scans (last 5)
   const recentScans = histories.slice(0, 5);
 
@@ -113,7 +70,7 @@ const Dashboard: React.FC = () => {
 
       {/* Welcome Header */}
       <div className="mb-6">
-        <h1 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight mb-1">
+        <h1 className="font-display text-xl sm:text-2xl font-extrabold tracking-tight mb-1">
           Halo, {profileData?.fullName || "Investigator"} 👋
         </h1>
         <p className="text-on-surface-variant text-sm">
