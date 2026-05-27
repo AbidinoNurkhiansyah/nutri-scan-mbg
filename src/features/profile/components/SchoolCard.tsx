@@ -85,13 +85,22 @@ export const SchoolCard: React.FC<SchoolCardProps> = ({
                   groups
                 </span>
               </div>
-              <input
-                type="text"
+              <select
                 value={className}
                 onChange={(e) => setClassName(e.target.value)}
-                placeholder="Masukkan kelas (contoh: 6A)"
-                className="block w-full pl-10 pr-3 py-2 bg-surface-container-highest border border-transparent rounded-lg text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/40 focus:border-primary/30 transition-all text-sm"
-              />
+                className="block w-full pl-10 pr-10 py-2 bg-surface-container-highest border border-transparent rounded-lg text-on-surface focus:ring-2 focus:ring-primary/40 focus:border-primary/30 transition-all text-sm appearance-none cursor-pointer"
+              >
+                <option value="" disabled>Pilih Kelas</option>
+                <option value="Kelas 1">Kelas 1</option>
+                <option value="Kelas 2">Kelas 2</option>
+                <option value="Kelas 3">Kelas 3</option>
+                <option value="Kelas 4">Kelas 4</option>
+                <option value="Kelas 5">Kelas 5</option>
+                <option value="Kelas 6">Kelas 6</option>
+              </select>
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-on-surface-variant">
+                <span className="material-symbols-outlined text-lg">expand_more</span>
+              </div>
             </div>
           </div>
           <div className="flex gap-3">

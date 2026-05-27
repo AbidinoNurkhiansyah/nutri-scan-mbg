@@ -62,7 +62,13 @@ const DashboardLayout: React.FC = () => {
     navigate("/login", { replace: true });
   };
 
-  if (isLoading) {
+  const serverUser = data?.data;
+  const localUser = useAuthStore.getState().user;
+  const isProfileComplete =
+    (serverUser?.schoolName || localUser?.schoolName) &&
+    (serverUser?.className || localUser?.className);
+
+  if (isLoading || (isSuccess && !isProfileComplete)) {
     return (
       <div className="bg-surface text-on-surface h-screen flex relative overflow-hidden items-center justify-center">
         <div className="text-center">
