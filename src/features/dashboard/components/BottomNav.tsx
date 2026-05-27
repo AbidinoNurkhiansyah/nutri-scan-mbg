@@ -43,7 +43,7 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeNav, onNavChange }) => {
                     isActive ? "text-primary" : "text-on-surface-variant"
                   }`}
                 >
-                  {item.label}
+                  Scan
                 </span>
               </button>
             );
@@ -76,7 +76,7 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeNav, onNavChange }) => {
                   isActive ? "text-primary font-semibold" : "text-on-surface-variant"
                 }`}
               >
-                {item.label}
+                {item.id === "history" ? "Riwayat" : item.label}
               </span>
             </button>
           );

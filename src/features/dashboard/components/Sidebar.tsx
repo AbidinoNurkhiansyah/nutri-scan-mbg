@@ -4,15 +4,11 @@ import { navItems } from "../config/navigation";
 interface SidebarProps {
   activeNav: string;
   onNavChange: (id: string) => void;
-  onLogout: () => void;
-  user?: { fullName?: string; email?: string } | null;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   activeNav,
   onNavChange,
-  onLogout,
-  user,
 }) => {
   return (
     <aside
@@ -64,31 +60,6 @@ const Sidebar: React.FC<SidebarProps> = ({
           </button>
         ))}
       </nav>
-
-      {/* User Info + Logout */}
-      <div className="p-3 border-t border-outline-variant/10">
-        <div className="flex items-center gap-3 px-3 py-2 mb-2">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-sm shrink-0">
-            <span
-              className="material-symbols-outlined text-white text-base"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              person
-            </span>
-          </div>
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-on-surface truncate">{user?.fullName}</p>
-            <p className="text-[11px] text-on-surface-variant truncate">{user?.email}</p>
-          </div>
-        </div>
-        <button
-          onClick={onLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-on-surface-variant hover:bg-error-container/15 hover:text-error transition-all cursor-pointer"
-        >
-          <span className="material-symbols-outlined text-xl">logout</span>
-          Logout
-        </button>
-      </div>
     </aside>
   );
 };
