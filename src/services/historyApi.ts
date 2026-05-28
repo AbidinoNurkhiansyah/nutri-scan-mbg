@@ -1,5 +1,21 @@
 import api from "./api";
 
+export interface DetectionItem {
+  label: string;
+  confidence?: number;
+  class_id?: number;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  bbox?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  [key: string]: unknown;
+}
 export interface HistoryItem {
   id: string;
   userId: string;
@@ -10,6 +26,7 @@ export interface HistoryItem {
   detail: string;
   recommendation: string;
   nutritionProportion: Record<string, number> | null;
+  coordinateLabel: DetectionItem[] | null;
   createdAt: string;
   user?: {
     fullName: string;
