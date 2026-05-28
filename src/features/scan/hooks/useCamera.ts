@@ -23,11 +23,14 @@ export const useCamera = () => {
         },
       });
       streamRef.current = stream;
+      setCameraActive(true);
+      
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
-        await videoRef.current.play();
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current?.play().catch((e) => console.error("Error playing video:", e));
+        };
       }
-      setCameraActive(true);
     } catch (err: any) {
       console.error("Camera access error:", err);
       if (err.message === "SECURE_CONTEXT_REQUIRED") {
