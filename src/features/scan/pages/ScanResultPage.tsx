@@ -72,11 +72,13 @@ const ScanResultPage: React.FC = () => {
       <ImageComparison
         rawImageUrl={history.rawImageUrl}
         augmentationImageUrl={history.augmentationImageUrl}
+        detections={history.coordinateLabel}
       />
 
       <ScoreStatus score={history.healthyScore} status={history.status} />
 
       <NutritionChart nutritionData={history.nutritionProportion} />
+
 
       {/* Detail */}
       {history.detail && (
