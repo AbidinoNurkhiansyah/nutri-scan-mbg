@@ -51,8 +51,13 @@ const ScanPage: React.FC = () => {
     if (!selectedFile) return;
     setScanError(null);
     mutate(selectedFile, {
-      onSuccess: () => {
-        navigate("/history");
+      onSuccess: (res: any) => {
+        const historyId = res?.data?.id;
+        if (historyId) {
+          navigate(`/scan/result/${historyId}`);
+        } else {
+          navigate("/history");
+        }
       },
       onError: (err: any) => {
         const message =
