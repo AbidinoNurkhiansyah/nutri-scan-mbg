@@ -33,9 +33,16 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
   };
 
   React.useEffect(() => {
-    window.addEventListener("resize", updateDimensions);
+    const observer = new ResizeObserver(() => {
+      updateDimensions();
+    });
+
+    if (imageRef.current) {
+      observer.observe(imageRef.current);
+    }
+
     return () => {
-      window.removeEventListener("resize", updateDimensions);
+      observer.disconnect();
     };
   }, []);
 
@@ -67,7 +74,10 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
         name: "Protein",
       };
     }
-    if (normalizedLabel.includes("sayur") || normalizedLabel.includes("serat")) {
+    if (
+      normalizedLabel.includes("sayur") ||
+      normalizedLabel.includes("serat")
+    ) {
       return {
         border: "rgba(34, 197, 94, 1)", // green-500
         bg: "rgba(34, 197, 94, 0.15)",
@@ -109,19 +119,16 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
   };
 
   return (
-    <div className="mb-5 animate-[fadeIn_0.3s_ease-out]">
-      <p className="text-[10px] uppercase tracking-wider text-outline font-semibold mb-1.5">
-        Foto Asli (Analisis AI)
-      </p>
-      <div className="relative rounded-xl overflow-hidden border border-outline-variant/10 clinical-shadow bg-surface-container-low select-none">
+    <div className="animate-[fadeIn_0.3s_ease-out] h-full flex flex-col">
+      <div className="relative rounded-xl overflow-hidden border border-outline-variant/10 clinical-shadow bg-surface-container-low select-none flex-1 w-full min-h-[350px] lg:min-h-0">
         <img
           ref={imageRef}
           src={rawImageUrl}
           alt="Foto asli makanan"
-          className="w-full aspect-square object-cover"
+          className="w-full h-full absolute inset-0"
           onLoad={updateDimensions}
         />
-        
+
         {/* Overlays */}
         {imageSize &&
           detections &&
@@ -135,21 +142,19 @@ export const ImageComparison: React.FC<ImageComparisonProps> = ({
               return null;
             }
 
-            const { border, bg, hoverBg, solid, name } = getColorForLabel(item.label);
+            const { border, bg, hoverBg, solid, name } = getColorForLabel(
+              item.label,
+            );
             const isHovered = hoveredIndex === index;
 
             const COORD_BASE = 256;
 
-            const scale = Math.max(
-              imageSize.clientWidth / imageSize.naturalWidth,
-              imageSize.clientHeight / imageSize.naturalHeight
-            );
+            // Jika memanjang (stretch / fill), kita langsung gunakan ukuran container
+            const renderedWidth = imageSize.clientWidth;
+            const renderedHeight = imageSize.clientHeight;
 
-            const renderedWidth = imageSize.naturalWidth * scale;
-            const renderedHeight = imageSize.naturalHeight * scale;
-
-            const offsetX = (imageSize.clientWidth - renderedWidth) / 2;
-            const offsetY = (imageSize.clientHeight - renderedHeight) / 2;
+            const offsetX = 0;
+            const offsetY = 0;
 
             const left = (item.x / COORD_BASE) * renderedWidth + offsetX;
             const top = (item.y / COORD_BASE) * renderedHeight + offsetY;
