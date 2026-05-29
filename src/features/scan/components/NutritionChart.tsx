@@ -1,11 +1,6 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -65,7 +60,7 @@ export const NutritionChart: React.FC<NutritionChartProps> = ({
   };
 
   return (
-    <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5">
+    <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10">
       <h3 className="font-headline font-bold text-sm text-on-surface mb-4">
         Proporsi Nutrisi
       </h3>
