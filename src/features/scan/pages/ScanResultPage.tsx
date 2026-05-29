@@ -69,65 +69,59 @@ const ScanResultPage: React.FC = () => {
         </div>
       </div>
 
-      <ImageComparison
-        rawImageUrl={history.rawImageUrl}
-        augmentationImageUrl={history.augmentationImageUrl}
-        detections={history.coordinateLabel}
-      />
-
-      <ScoreStatus score={history.healthyScore} status={history.status} />
-
-      <NutritionChart nutritionData={history.nutritionProportion} />
-
-
-      {/* Detail */}
-      {history.detail && (
-        <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-5 border border-outline-variant/10 mb-5">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="material-symbols-outlined text-primary text-lg">
-              description
-            </span>
-            <h3 className="font-headline font-bold text-sm text-on-surface">
-              Detail Analisis
-            </h3>
-          </div>
-          <p className="text-sm text-on-surface-variant leading-relaxed whitespace-pre-line">
-            {history.detail}
-          </p>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Left Column: Image Scan */}
+        <div className="w-full h-full">
+          <ImageComparison
+            rawImageUrl={history.rawImageUrl}
+            augmentationImageUrl={history.augmentationImageUrl}
+            detections={history.coordinateLabel}
+          />
         </div>
-      )}
 
-      {/* Recommendation */}
-      {history.recommendation && (
-        <div className="bg-primary-container/10 rounded-xl p-5 border border-primary/15 mb-5">
-          <div className="flex items-center gap-2 mb-3">
-            <span
-              className="material-symbols-outlined text-primary text-lg"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              tips_and_updates
-            </span>
-            <h3 className="font-headline font-bold text-sm text-primary">
-              Rekomendasi AI
-            </h3>
-          </div>
-          <p className="text-sm text-on-surface leading-relaxed whitespace-pre-line">
-            {history.recommendation}
-          </p>
+        {/* Right Column: Nutrition Results */}
+        <div className="w-full flex flex-col">
+          <ScoreStatus score={history.healthyScore} status={history.status} />
+
+          <NutritionChart nutritionData={history.nutritionProportion} />
+
+          {/* Detail */}
+          {history.detail && (
+            <div className="bg-surface-container-lowest rounded-xl clinical-shadow p-4 border border-outline-variant/10 mt-3">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="material-symbols-outlined text-primary text-base">
+                  description
+                </span>
+                <h3 className="font-headline font-bold text-sm text-on-surface">
+                  Detail Analisis
+                </h3>
+              </div>
+              <p className="text-xs text-on-surface-variant leading-relaxed whitespace-pre-line">
+                {history.detail}
+              </p>
+            </div>
+          )}
+
+          {/* Recommendation */}
+          {history.recommendation && (
+            <div className="bg-primary-container/10 rounded-xl p-4 border border-primary/15 mt-3">
+              <div className="flex items-center gap-2 mb-2">
+                <span
+                  className="material-symbols-outlined text-primary text-base"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  tips_and_updates
+                </span>
+                <h3 className="font-headline font-bold text-sm text-primary">
+                  Rekomendasi AI
+                </h3>
+              </div>
+              <p className="text-xs text-on-surface leading-relaxed whitespace-pre-line">
+                {history.recommendation}
+              </p>
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Action */}
-      <div className="flex pb-4">
-        <button
-          onClick={() => navigate("/scan")}
-          className="w-full py-3 rounded-xl bg-primary text-on-primary font-headline font-bold text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] transition-all cursor-pointer flex items-center justify-center gap-2"
-        >
-          <span className="material-symbols-outlined text-lg">
-            photo_camera
-          </span>
-          Scan Lagi
-        </button>
       </div>
     </div>
   );
