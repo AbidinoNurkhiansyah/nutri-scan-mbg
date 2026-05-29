@@ -63,12 +63,15 @@ const DashboardLayout: React.FC = () => {
   };
 
   const serverUser = data?.data;
-  const localUser = useAuthStore.getState().user;
+  const localUserStore = useAuthStore.getState().user;
   const isProfileComplete =
-    (serverUser?.schoolName || localUser?.schoolName) &&
-    (serverUser?.className || localUser?.className);
+    (serverUser?.schoolName || localUserStore?.schoolName) &&
+    (serverUser?.className || localUserStore?.className);
 
-  if (isLoading || (isSuccess && !isProfileComplete)) {
+  // Hanya memblokir layar jika tidak ada data lokal sama sekali
+  const isLoadingProfile = isLoading && !localUserStore;
+
+  if (isLoadingProfile || (isSuccess && !isProfileComplete)) {
     return (
       <div className="bg-surface text-on-surface h-screen flex relative overflow-hidden items-center justify-center">
         <div className="text-center">
