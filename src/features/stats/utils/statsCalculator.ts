@@ -5,7 +5,12 @@ export const calculateStats = (histories: HistoryItem[]) => {
   const balanced = histories.filter(
     (h) => h.status?.toLowerCase() === "seimbang"
   ).length;
-  const unbalanced = totalScan - balanced;
+  const lessBalanced = histories.filter(
+    (h) => h.status?.toLowerCase() === "kurang_seimbang"
+  ).length;
+  const unbalanced = histories.filter(
+    (h) => h.status?.toLowerCase() === "tidak_seimbang"
+  ).length;
 
   const avgScore =
     totalScan > 0
@@ -50,6 +55,7 @@ export const calculateStats = (histories: HistoryItem[]) => {
   return {
     totalScan,
     balanced,
+    lessBalanced,
     unbalanced,
     avgScore,
     scoreDistribution,

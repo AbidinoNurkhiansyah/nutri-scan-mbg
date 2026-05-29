@@ -88,6 +88,7 @@ const StatsPage: React.FC = () => {
   const {
     totalScan,
     balanced,
+    lessBalanced,
     unbalanced,
     avgScore,
     scoreDistribution,
@@ -97,11 +98,11 @@ const StatsPage: React.FC = () => {
 
   // ─── Chart Data ─────────────────
   const statusChartData = {
-    labels: ["Seimbang", "Tidak Seimbang"],
+    labels: ["Seimbang", "Kurang Seimbang", "Tidak Seimbang"],
     datasets: [
       {
-        data: [balanced, unbalanced],
-        backgroundColor: ["#006c49", "#ff7e2d"],
+        data: [balanced, lessBalanced, unbalanced],
+        backgroundColor: ["#006c49", "#f59e0b", "#ba1a1a"],
         borderWidth: 0,
         hoverOffset: 6,
       },
@@ -203,7 +204,7 @@ const StatsPage: React.FC = () => {
           </div>
           <div className="flex-1 w-full space-y-3">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-primary shrink-0" />
+              <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: "#006c49" }} />
               <span className="text-sm text-on-surface-variant flex-1 truncate">
                 Seimbang
               </span>
@@ -212,7 +213,16 @@ const StatsPage: React.FC = () => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-tertiary-container shrink-0" />
+              <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: "#f59e0b" }} />
+              <span className="text-sm text-on-surface-variant flex-1 truncate">
+                Kurang Seimbang
+              </span>
+              <span className="text-sm font-bold text-on-surface">
+                {lessBalanced}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: "#ba1a1a" }} />
               <span className="text-sm text-on-surface-variant flex-1 truncate">
                 Tidak Seimbang
               </span>
