@@ -17,30 +17,27 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       <div className="fixed top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary-container/10 blur-[140px] pointer-events-none"></div>
       <div className="fixed bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-secondary-container/15 blur-[120px] pointer-events-none"></div>
 
-      <main className="w-full max-w-[420px] relative z-10">
+      <main className="w-full max-w-[480px] relative z-10">
         {/* Brand Context */}
-        <div className="flex flex-col items-center text-center mb-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center mb-2 shadow-md">
-            <span
-              className="material-symbols-outlined text-white text-xl"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              biotech
-            </span>
-          </div>
-          <p className="font-label text-[10px] uppercase tracking-[0.2em] text-primary mb-1 font-semibold">
+        <div className="flex flex-col items-center text-center mb-5">
+          <img
+            src="/logo.png"
+            alt="NutriScan Logo"
+            className="w-14 h-14 mb-3"
+          />
+          <p className="font-label text-xs uppercase tracking-[0.2em] text-primary mb-1.5 font-semibold">
             NutriScan MBG
           </p>
-          <h1 className="font-display text-xl sm:text-2xl font-extrabold text-on-surface tracking-tight">
+          <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-on-surface tracking-tight">
             {title}
           </h1>
-          <p className="font-body text-on-surface-variant mt-1 text-xs">
+          <p className="font-body text-on-surface-variant mt-1.5 text-sm leading-relaxed max-w-[90%] mx-auto">
             {subtitle}
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-surface-container-lowest rounded-2xl clinical-shadow p-5 sm:p-6 border border-outline-variant/10">
+        <div className="bg-surface-container-lowest rounded-3xl clinical-shadow p-6 sm:p-8 border border-outline-variant/10">
           {children}
         </div>
       </main>
