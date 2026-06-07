@@ -1,9 +1,9 @@
-import React from "react";
-import { navItems } from "../config/navigation";
+import React from "react"
+import { navItems } from "../config/navigation"
 
 interface SidebarProps {
-  activeNav: string;
-  onNavChange: (id: string) => void;
+  activeNav: string
+  onNavChange: (id: string) => void
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeNav, onNavChange }) => {
@@ -11,7 +11,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeNav, onNavChange }) => {
     <aside className="hidden lg:flex sticky top-0 left-0 z-40 h-screen w-[260px] bg-surface-container-lowest border-r border-outline-variant/10 flex-col">
       {/* Brand */}
       <div className="px-5 py-5 flex items-center gap-3 border-b border-outline-variant/10">
-        <img src="/logo.png" alt="NutriScan Logo" className="w-12 h-12" />
+        <img src="/logo.png" alt="NutriScan Logo" className="w-12" />
         <div>
           <p className="font-headline font-bold text-sm text-on-surface leading-tight">
             NutriScan
@@ -27,7 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeNav, onNavChange }) => {
         <p className="px-3 mb-2 text-[10px] uppercase tracking-[0.2em] text-outline font-semibold">
           Menu
         </p>
-        {navItems.map((item) => (
+        {navItems.map(item => (
           <button
             key={item.id}
             onClick={() => onNavChange(item.id)}
@@ -58,7 +58,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeNav, onNavChange }) => {
         ))}
       </nav>
     </aside>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

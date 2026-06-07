@@ -1,9 +1,9 @@
-import React from "react";
+import React from "react"
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
-  title: string;
-  subtitle: string;
+  children: React.ReactNode
+  title: string
+  subtitle: string
 }
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({
@@ -20,11 +20,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
       <main className="w-full max-w-[480px] relative z-10">
         {/* Brand Context */}
         <div className="flex flex-col items-center text-center mb-5">
-          <img
-            src="/logo.png"
-            alt="NutriScan Logo"
-            className="w-14 h-14 mb-3"
-          />
+          <img src="/logo.png" alt="NutriScan Logo" className="w-14 mb-3" />
           <p className="font-label text-xs uppercase tracking-[0.2em] text-primary mb-1.5 font-semibold">
             NutriScan MBG
           </p>
@@ -42,5 +38,5 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
